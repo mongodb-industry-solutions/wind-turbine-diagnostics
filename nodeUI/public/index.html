@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Wind turbine example</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      function sendMessage() {
+        const message = document.getElementById("message").value;
+        socket.emit("message", message);
+      }
+      function convertToPercentage(num) {
+        // round to 3 decimal places and convert to string
+        var rounded = num.toFixed(4);
+        // convert back to number
+        var number = parseFloat(rounded);
+        // multiply by 100 and add % sign
+        var percentage = number * 100 + " ";
+        percentage = percentage.slice(0,5) + "%";
+        // return the percentage
+        return percentage;
+      }
+      socket.on("message", (message) => {
+        const title = document.getElementById("title");
+        const messages = document.getElementById("messages");
+        const funnyimage = document.getElementById("funnyGIF");
+        title.innerHTML = `${message.audio} ${convertToPercentage( message.score )} match to reference`;
+        if (funnyimage.src != `${message.image}`){
+          const date = new Date();
+          const hours = ('0' + date.getHours()).slice(-2);
+          const minutes = ('0' + date.getMinutes()).slice(-2);
+          const seconds = ('0' + date.getSeconds()).slice(-2);
+
+          // title.innerHTML = `${message.audio}`;
+          messages.innerHTML = `<li>${hours}:${minutes}:${seconds} - ${message.audio}</li>` + messages.innerHTML;
+          funnyimage.src = `${message.image}`;
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <h1 id="immutabletitle">Ask to see the WIND TURBINE!!!</h1>
+    <br /><br /><br />
+    <h1 id="title">Wind turbine example</h1>
+    <img id="funnyGIF" height="500px" />
+    <!--<input type="text" id="message" />
+    <button onclick="sendMessage()">Send Message</button>-->
+    <ul id="messages"></ul>
+  </body>
+</html>
