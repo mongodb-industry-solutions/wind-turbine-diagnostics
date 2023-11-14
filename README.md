@@ -2,15 +2,23 @@
 A tongue in cheek demonstration of using mongodb's vector search to determine issues with wind turbines
 
 Create a file called .env in the directory with add_audio.py and add your atlas connection string
+
 MONGO_CONNECTION_STRING="mongodb+srv://connectionstringfromatlas"
 
 Install the required python modules:
+
 pip install pyaudio
+
 pip install numpy
+
 pip install pymongo
+
 pip install librosa
+
 pip install panns_inference
+
 pip install torch
+
 pip install python-dotenv
 
 run 'python add_audio.py'
