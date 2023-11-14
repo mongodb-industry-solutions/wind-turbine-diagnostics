@@ -109,7 +109,7 @@ function closeChangeStream(timeInMs = 60000, changeStream) {
  * @param {Object} pipeline An aggregation pipeline that determines which change events should be output to the console
  */
 async function monitorListingsUsingEventEmitter(client, timeInMs = 60000, pipeline = []) {
-    const collection = client.db("audio2").collection("results");
+    const collection = client.db("audio").collection("results");
 
     // See https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#watch for the watch() docs
     const changeStream = collection.watch(pipeline);
@@ -135,7 +135,7 @@ async function monitorListingsUsingEventEmitter(client, timeInMs = 60000, pipeli
  * @param {Object} pipeline An aggregation pipeline that determines which change events should be output to the console
  */
 async function monitorListingsUsingHasNext(client, timeInMs = 60000, pipeline = []) {
-    const collection = client.db("audio2").collection("results");
+    const collection = client.db("audio").collection("results");
 
     // See https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#watch for the watch() docs
     const changeStream = collection.watch(pipeline);
@@ -167,7 +167,7 @@ async function monitorListingsUsingHasNext(client, timeInMs = 60000, pipeline = 
  * @param {Object} pipeline An aggregation pipeline that determines which change events should be output to the console
  */
 async function monitorListingsUsingStreamAPI(client, timeInMs = 60000, pipeline = []) {
-    const collection = client.db("audio2").collection("results");
+    const collection = client.db("audio").collection("results");
 
     // See https://mongodb.github.io/node-mongodb-native/3.6/api/Collection.html#watch for the watch() docs
     const changeStream = collection.watch(pipeline);

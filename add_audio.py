@@ -28,7 +28,7 @@ client = MongoClient(connection_string)
 
 
 # Instantiate the MongoDB collection
-db = client['audio2']
+db = client['audio']
 mongodb_sounds_collection = db['sounds']
 mongodb_results_collection = db['results']
 
