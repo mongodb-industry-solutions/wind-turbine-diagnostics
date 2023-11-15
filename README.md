@@ -1,7 +1,7 @@
 # mongodb-wind-turbine
 A tongue in cheek demonstration of using mongodb's vector search to determine issues with wind turbines
 
-Create a file called .env in the directory with add_audio.py and add your atlas connection string
+Create a file called .env in the main directory alongside the add_audio.py file and add your atlas connection string.  Then copy this file in to the nodeUI directory too.
 
 MONGO_CONNECTION_STRING="mongodb+srv://connectionstringfromatlas"
 
