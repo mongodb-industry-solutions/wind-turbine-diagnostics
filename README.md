@@ -1,6 +1,9 @@
 # Wind Turbine Diagnostics using MongoDB Vector Search
 A tongue in cheek demonstration of using MongoDB's vector search to determine issues with wind turbines.
 
+![Architecture](architecture.png)
+
+
 ## 1. MongoDB Atlas Connection
 Create a file called `.env` in the main directory alongside the `add_audio.py` file and add your atlas connection string, in the following format:  
 
