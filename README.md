@@ -1,7 +1,7 @@
 # Wind Turbine Diagnostics using MongoDB Vector Search
 A tongue-in-cheek demonstration of MongoDB's Vector Search capabilities for anomaly detection through sound input, using a basic handheld fan as our makeshift wind turbine. This demo enables real-time diagnosis by analyzing the emitted audio, allowing us to diagnose its condition—whether it's operating normally, stopped, or experiencing any issues.
  
-![Architecture](architecture.png)
+![Architecture](architecture1.png)
 
 
 ## 1. MongoDB Atlas Connection
