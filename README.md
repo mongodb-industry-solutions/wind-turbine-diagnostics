@@ -3,6 +3,10 @@ A tongue-in-cheek demonstration of MongoDB's Vector Search capabilities for anom
  
 ![Architecture](architecture1.png)
 
+## Prerequisites
+
+1. Install [Node.js](https://nodejs.org/)
+* Tested with Node.js v20.8.0
 
 ## 1. MongoDB Atlas Connection
 Create a file called `.env` in the main directory alongside the `add_audio.py` file and add your atlas connection string, in the following format:  
@@ -29,7 +33,7 @@ Install the required python modules.
 
 `pip install python-dotenv`
 
-`pip instal certifi`
+`pip install certifi`
 
 ## 3. Record Audio Files
 
