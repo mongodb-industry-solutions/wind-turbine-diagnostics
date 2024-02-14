@@ -29,6 +29,8 @@ Install the required python modules.
 
 `pip install python-dotenv`
 
+`pip instal certifi`
+
 ## 3. Record Audio Files
 
 Run `python add_audio.py`
