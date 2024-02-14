@@ -4,7 +4,7 @@ import numpy as np
 import pymongo
 import json
 from pymongo import MongoClient
-
+import certifi
 
 import numpy as np
 import librosa
@@ -24,7 +24,7 @@ load_dotenv()
 connection_string = os.getenv('MONGO_CONNECTION_STRING')
 
 # Create a MongoClient object
-client = MongoClient(connection_string)
+client = MongoClient(connection_string, tlsCAFile=certifi.where())
 
 
 # Instantiate the MongoDB collection
