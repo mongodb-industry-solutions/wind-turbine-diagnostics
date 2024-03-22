@@ -48,7 +48,8 @@ Select the audio input by typing the relevant number and then press enter. Recor
 
 Go to MongoDB Atlas and create an Atlas Search Index in the **audio** database **sounds** collection and using the content of `searchindex.json`
 
-``` {
+```
+{
     "mappings": {
       "dynamic": true,
       "fields": {
