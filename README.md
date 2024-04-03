@@ -35,11 +35,15 @@ Install the required python modules.
 
 `pip install certifi`
 
+> **_NOTE:_**  If you get a problem when running `pip install pyaudio` run `brew install portaudio`.
+
 ## 3. Record Audio Files
 
-Run `python add_audio.py`
+Run `python3 add_audio.py`
 
 Select the audio input by typing the relevant number and then press enter. Record each sound in sequence.
+
+> **_NOTE:_**  If you get a problem when running `python add_audio.py` run `brew install wget`.
 
 > [!TIP]
 > We recommend using an external microphone and placing it very close to the fan or audio source.
@@ -64,7 +68,7 @@ Go to MongoDB Atlas and create an Atlas Search Index in the **audio** database *
 ```
 ## 5. Query the Database
 
-Run `python live_query.py` and place your microphone next to the fan.
+Run `python3 live_query.py` and place your microphone next to the fan.
 
 ## 6. Run the Frontend
 
