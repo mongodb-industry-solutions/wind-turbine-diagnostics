@@ -1,0 +1,20 @@
+#immutabletitle{
+    margin-left: 5%;
+    text-align: center;
+    font-weight: 100;
+    font-size: 50px;
+}
+
+#title{
+    margin-left: 5%;
+    text-align: center;
+    font-weight: 200;
+    font-size: 50px;
+    color: #00ED64;
+    padding-top: 20px;
+}
+
+#logo{
+    padding-top: 20px;
+    margin-left: 50%;
+}

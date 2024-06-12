@@ -188,7 +188,6 @@ for audio_description in audio_description_dictionary:
         audio_data = np.frombuffer(b"".join(frames), dtype=np.int16)
 
         emb = get_embedding(audio_data)
-
         insert_mongo_sounds(f"{audio_description['audio']}",emb.tolist(),f"{j}",f"{audio_description['image']}",mongodb_sounds_collection)
     stream.close()
     print('Recorded successfully')
