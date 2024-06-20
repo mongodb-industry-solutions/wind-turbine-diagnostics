@@ -1,8 +1,16 @@
-.title2{
-    margin-left: 5%;
+.title2 {
+
     text-align: center;
     font-weight: 400;
-    margin-top: -10px;
+    margin-top: 30px;
     font-family: 'Lexend Deca', sans-serif;
     font-size: 20px;
+}
+
+.sampleSection {
+    margin-bottom: 50px;
+}
+
+.skipBtn {
+    margin-left: 20px;
 }

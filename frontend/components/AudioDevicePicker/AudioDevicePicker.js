@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Option, Select } from "@leafygreen-ui/select";
+import styles from "./AudioDevicePicker.module.css";
+
 
 const AudioDevicePicker = ({ deviceId, setDeviceId, recording }) => {
 
@@ -25,7 +27,7 @@ const AudioDevicePicker = ({ deviceId, setDeviceId, recording }) => {
 
     return (
       <>
-        <div>
+        <div className={styles.deviceSection}>
             <p>Select Microphone: </p>
             <Select
                 id="microphone-select"

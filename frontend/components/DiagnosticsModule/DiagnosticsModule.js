@@ -78,15 +78,16 @@ const DiagnosticsModule = ({ dictionary, selectedDeviceId, recording, setRecordi
                 <Button 
                     disabled={!recording} 
                     onClick={handleStopDiagnostics}
-                    variant="dangerOutline"    
+                    variant="dangerOutline"  
+                    className={styles.stopBtn}  
                 >
                     Stop Diagnostics
                 </Button>
             </div>
             <img id={styles.funnyGIF} src={currentGif} height="500px" />
             <div id="log-list">
-                <h2 id={styles.log}>Log</h2>
-                <ul id={styles.messages}>
+                <h2 className={styles.log}>Log</h2>
+                <ul className={styles.messages}>
                     {messages.map((msg, index) => (
                         <li key={index}>{msg.timestamp} - {msg.audio}</li>
                     ))}

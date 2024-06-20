@@ -37,7 +37,7 @@ const SampleRecorder = ({ dictionary, selectedDeviceId, currentIndex, setCurrent
         <>
             <div>
                 <h1 className={styles.title2}>Record audio references</h1>
-                <div>
+                <div className={styles.sampleSection}>
                     <p htmlFor="numSamples">Number of training samples:</p>
                     <Select 
                         id="numSamples" 
@@ -67,6 +67,7 @@ const SampleRecorder = ({ dictionary, selectedDeviceId, currentIndex, setCurrent
                     disabled={recording} 
                     onClick={skipTraining}
                     variant="dangerOutline"
+                    className={styles.skipBtn}
                 >
                     Skip Training
                 </Button>
