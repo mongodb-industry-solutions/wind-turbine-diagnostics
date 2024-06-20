@@ -20,6 +20,8 @@ Install the required python modules.
 
 `pip install pyaudio`
 
+> **_NOTE:_**  If you get a problem when running `pip install pyaudio` run `brew install portaudio`.
+
 `pip install numpy`
 
 `pip install pymongo`
@@ -33,8 +35,6 @@ Install the required python modules.
 `pip install python-dotenv`
 
 `pip install certifi`
-
-> **_NOTE:_**  If you get a problem when running `pip install pyaudio` run `brew install portaudio`.
 
 ## 3. Record Audio Files
 
