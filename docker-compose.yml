@@ -17,10 +17,3 @@ services:
       - "8000:8000"
     environment:
       - MONGO_CONNECTION_STRING=${MONGO_CONNECTION_STRING}
-  nginx:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
-    ports:
-      - "80:80"
-      - "443:443"

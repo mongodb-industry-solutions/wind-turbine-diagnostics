@@ -63,7 +63,7 @@ const sendAudioToBackend = async (audioBlob, audioName, env) => {
     const formData = new FormData();
     formData.append('file', audioBlob, 'recording.webm');
 
-    let url = env === 'local' ? "http://localhost:8000/embed-audio" : "/embed-audio";
+    let url = "/embed-audio";
     if (audioName !== null) {
         url += `?audio_name=${audioName}`;
     }
