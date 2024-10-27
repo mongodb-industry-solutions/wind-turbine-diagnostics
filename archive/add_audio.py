@@ -21,7 +21,7 @@ load_dotenv()
 
 # Replace the connection string with your own.
 # https://ioflood.com/blog/python-dotenv-guide-how-to-use-environment-variables-in-python/
-connection_string = os.getenv('MONGO_CONNECTION_STRING')
+connection_string = os.getenv('MONGODB_URI')
 
 # Create a MongoClient object
 client = MongoClient(connection_string, tlsCAFile=certifi.where())

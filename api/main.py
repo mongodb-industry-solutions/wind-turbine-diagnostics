@@ -16,7 +16,7 @@ load_dotenv()
 
 app = FastAPI()
 
-connection_string = os.getenv('MONGO_CONNECTION_STRING')
+connection_string = os.getenv('MONGODB_URI')
 
 # Initialize the AudioTagging model
 model = AudioTagging(checkpoint_path=None, device='cuda')

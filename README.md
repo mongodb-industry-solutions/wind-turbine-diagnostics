@@ -10,7 +10,7 @@ Install [Node.js](https://nodejs.org/) (Tested with Node.js v20.8.0)
 ## 1. MongoDB Atlas Connection
 Create a file called `.env` in the main directory alongside the `add_audio.py` file and add your atlas connection string, in the following format:  
 
-`MONGO_CONNECTION_STRING="mongodb+srv://connectionstringfromatlas"`
+`MONGODB_URI="mongodb+srv://connectionstringfromatlas"`
 
 Then copy this file in to the `nodeUI` directory too.
 

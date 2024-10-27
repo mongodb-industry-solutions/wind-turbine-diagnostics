@@ -1,6 +1,6 @@
 require('dotenv').config();
 // Connection URL
-const connection_string = process.env.MONGO_CONNECTION_STRING;
+const connection_string = process.env.MONGODB_URI;
 
 const { MongoClient } = require('mongodb');
 const stream = require('stream');
