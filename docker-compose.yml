@@ -1,19 +1,27 @@
-version: '3'
 services:
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        MONGODB_URI: ${MONGODB_URI} # Pass the MongoDB URI as a build argument
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=production
       - MONGODB_URI=${MONGODB_URI}
+    env_file:
+      - .env  # Use .env file in the root directory
+
   api:
     build:
       context: ./api
       dockerfile: Dockerfile
+      args:
+        MONGODB_URI: ${MONGODB_URI}
     ports:
       - "8000:8000"
     environment:
-      - MONGO_CONNECTION_STRING=${MONGO_CONNECTION_STRING}
+      - MONGODB_URI=${MONGODB_URI}
+    env_file:
+      - .env  # Use .env file in the root directory
