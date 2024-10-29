@@ -1,92 +1,214 @@
 # Wind Turbine Diagnostics using MongoDB Vector Search
-A tongue-in-cheek demonstration of MongoDB's Vector Search capabilities for anomaly detection through sound input, using a basic handheld fan as our makeshift wind turbine. This demo enables real-time diagnosis by analyzing the emitted audio, allowing us to diagnose its condition—whether it's operating normally, stopped, or experiencing any issues.
+This demonstration showcases MongoDB's Vector Search capabilities for anomaly detection using sound input. We use a handheld fan as a proxy for a wind turbine, enabling real-time diagnostics of its condition—whether it's operating normally, stopped, or experiencing issues.
  
 ![Architecture](architecture1.png)
 
+## Table of Contents
+
+1. Prerequisites
+2. Setup Options
+   - Unified `.env` File
+   - Option 1: Run with Docker Compose
+   - Option 2: Run Without Docker
+3. MongoDB Atlas Configuration
+4. Atlas Charts
+5. Troubleshooting
+
+---
+
 ## Prerequisites
 
-Install [Node.js](https://nodejs.org/) (Tested with Node.js v20.8.0)
+1. [Node.js (tested with v20.8.0)](https://nodejs.org/en/)
 
-## 1. MongoDB Atlas Connection
-Create a file called `.env` in the main directory alongside the `add_audio.py` file and add your atlas connection string, in the following format:  
+   - **Usage**: Node.js is used to run our frontend, which powers the user interface and interactions of the demo.
+   - **Installation**:
+     - **macOS**:
+       - Install using Homebrew:
+         ```bash
+         brew install node
+         ```
 
-`MONGODB_URI="mongodb+srv://connectionstringfromatlas"`
+2. [Python 3.8+](https://www.python.org/downloads/)
 
-Then copy this file in to the `nodeUI` directory too.
+   - **Usage**: Python is used for our backend. It handles tasks like audio processing, data processing, and interacting with MongoDB Atlas.
+   - **Installation**:
+     - **macOS**:
+       - Install using Homebrew:
+         ```bash
+         brew install python
+         ```
 
-## 2. Install Python Modules
+3. [A MongoDB Atlas Account](https://www.mongodb.com/cloud/atlas/register)
 
-Install the required python modules.
+   - **Usage**: We are using MongoDB Atlas to store sound embeddings and other data, and to facilitate search capabilities via vector similarity.
+   - **Setup**:
+     - Create an account at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register).
+     - Once created, set up a cluster, and obtain the connection string which will be used in the `.env` file.
 
-`pip install pyaudio`
+4. [FFmpeg](https://ffmpeg.org/download.html)
 
-> **_NOTE:_**  If you get a problem when running `pip install pyaudio` run `brew install portaudio`.
+   - **Usage**: FFmpeg is used for audio processing, specifically to convert and manipulate audio files, which is a crucial part of diagnosing the wind turbine’s condition.
+   - **Installation**:
+     - **macOS**:
+       - Install using Homebrew:
+         ```bash
+         brew install ffmpeg
+         ```
 
-`pip install numpy`
+5. [wget](https://www.gnu.org/software/wget/)
 
-`pip install pymongo`
+   - **Usage**: `wget` is used to download the model files that are essential for audio inference in this project.
+   - **Installation**:
+     - **macOS**:
+       - Install using Homebrew:
+         ```bash
+         brew install wget
+         ```
 
-`pip install librosa`
+6. [Docker](https://www.docker.com/get-started)
 
-`pip install panns_inference`
+   - **Usage**: Docker is used to containerize the application, enabling consistent and easy deployment of the entire stack.
+   - **Installation**:
+     - **macOS**:
+       - Install using Homebrew:
+         ```bash
+         brew install --cask docker
+         ```
 
-`pip install torch`
+---
 
-`pip install python-dotenv`
+## Setup Options
 
-`pip install certifi`
+Choose one of the following two ways to set up and run the demo.
 
-## 3. Record Audio Files
+### Unified .env File
 
-Run `python3 add_audio.py`
+A default `.env` file has been created in the root directory of the project. To set it up:
 
-Select the audio input by typing the relevant number and then press enter. Record each sound in sequence.
+1. Open the `.env` file located in the root directory.
+2. Edit the line for `MONGODB_URI` to include your MongoDB Atlas connection string:
+   ```
+   MONGODB_URI="mongodb+srv://<your-atlas-connection-string>"
+   ```
 
-> **_NOTE:_**  If you get a problem when running `python add_audio.py` run `brew install wget`.
 
-> [!TIP]
-> We recommend using an external microphone and placing it very close to the fan or audio source.
 
-## 4. Create a Search Index
+### Option 1: Run with Docker Compose
 
-Go to MongoDB Atlas and create an Atlas Search Index in the **audio** database **sounds** collection and using the content of `searchindex.json`
+1. Clone the repository and navigate to the project folder.
+2. Go to the `.env` file in the root directory and add your MongoDB Atlas connection string:
+   - Example: `MONGODB_URI=mongodb+srv://your-atlas-connection-string`
+3. Start Docker Compose by running:
+   ```bash
+   docker-compose up --build
+   ```
+4. Access the frontend at `http://localhost:3000` in your browser.
 
-```
-{
-    "mappings": {
-      "dynamic": true,
-      "fields": {
-        "emb": {
-          "dimensions": 2048,
-          "similarity": "cosine",
-          "type": "knnVector"
-        }
-      }
-    }
-  }
-```
-## 5. Query the Database
+### Option 2: Run Without Docker
 
-Run `python3 live_query.py` and place your microphone next to the fan.
+#### Backend Setup (Port: 8000)
 
-## 6. Run the Frontend
+1. Navigate to the `api/` directory.
+2. Create a virtual environment:
+   ```bash
+   python3 -m venv venv
+   ```
+3. Activate the virtual environment:
+   ```bash
+   source venv/bin/activate
+   ```
+4. Install dependencies:
+   ```bash
+   python3 -m pip install -r requirements.txt
+   ```
+5. Download the PANNs model checkpoint file and move it to the correct path (add your username in the path below):
+   ```bash
+   wget https://zenodo.org/record/3987831/files/Cnn14_mAP%3D0.431.pth?download=1 -O Cnn14_mAP=0.431.pth
+   mv Cnn14_mAP=0.431.pth /Users/<your_username>/panns_data
+   ```
+6. Run the backend service:
+   ```bash
+   uvicorn main:app --reload --port 8000
+   ```
 
-Switch to a new console and cd to the 'nodeUI' directory.
+#### Frontend Setup (Port: 3000)
 
-Run `npm install`
+1. Navigate to the `frontend/` directory.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the frontend:
+   ```bash
+   npm run dev
+   ```
+4. Access the frontend at `http://localhost:3000`.
 
-Run `node nodeui.js`
+---
 
-Use a browser to open the link http://localhost:3000/
+## MongoDB Atlas Configuration
 
-## 7. Atlas Charts
+First time accessing the project:
 
-In Atlas, go to charts and click the down arrow next to **Add Dashboard** then click **import dashboard**.
+1. Choose your number of training samples and hit "Start Recording" on the frontend.
 
-Select the file `Sounds.charts` and click next.
+2. Once recording for all stages is complete, go to your MongoDB Atlas dashboard and create a search index in the `audio` database and `sounds` collection using the following content:
 
-Click on the pencil icon and ensure the database and collection match **audio** and **results**.
+   ```json
+   {
+     "mappings": {
+       "dynamic": true,
+       "fields": {
+         "emb": {
+           "dimensions": 2048,
+           "similarity": "cosine",
+           "type": "knnVector"
+         }
+       }
+     }
+   }
+   ```
 
-Click 'Save', and the 'Save'.
+3. You can now return to the frontend on your browser and click on "Start Diagnostics" to see the demo in action.
 
-Click the new dashboard 'Sounds' to see analytics on the sounds that are being detected by the microphone.
+This step only needs to be done for the very first time that you’re connecting to your MongoDB Atlas cluster.
+
+---
+
+## Atlas Charts
+
+1. In Atlas, go to Charts and click the down arrow next to "Add Dashboard", then click "Import Dashboard".
+2. Select the file `Sounds.charts` and click "Next".
+3. Click on the pencil icon and ensure the database and collection match `audio` and `results`.
+4. Click "Save", and then "Save" again.
+5. Click the new dashboard "Sounds" to see analytics on the sounds that are being detected by the microphone.
+
+---
+
+## Troubleshooting
+
+- **Frontend Not Loading**:
+
+  - Ensure that both the backend and MongoDB Atlas are running and accessible.
+  - Check for any errors in the console.
+
+- **Audio Device Issues**:
+
+  - Use an external microphone if your device's microphone is not functioning properly.
+  - Ensure that necessary libraries like wget and ffmpeg are installed.
+
+- **Docker Errors**:
+
+  - If containers fail, try rebuilding them by running:
+    ```bash
+    docker-compose down && docker-compose up --build
+    ```
+  - Ensure your `.env` file is properly set up in the root directory.
+
+- **Database Connection Errors**:
+
+  - Verify the `MONGODB_URI` in your `.env` file.
+  - Ensure that your IP address is whitelisted in MongoDB Atlas.
+  - Confirm that your MongoDB cluster is active and accessible.
+
+---
