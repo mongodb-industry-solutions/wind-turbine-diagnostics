@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+numpy
+librosa
+pydub
+pymongo
+certifi
+panns-inference
+torch
+python-dotenv
+python-multipart
