@@ -39,3 +39,4 @@ __pycache__
 #AWS
 *ecs.yml
 ecs-params.yml
+Makefile
