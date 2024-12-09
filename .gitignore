@@ -37,4 +37,5 @@ next-env.d.ts
 __pycache__
 
 #AWS
-aws-docker-compose.yml
+*ecs.yml
+ecs-params.yml
