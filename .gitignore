@@ -23,8 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
-.env*.local
-.env
+.env*
 
 # vercel
 .vercel
@@ -40,3 +39,4 @@ __pycache__
 *ecs.yml
 ecs-params.yml
 Makefile
+policy.json

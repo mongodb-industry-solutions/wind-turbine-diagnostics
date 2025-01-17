@@ -1,7 +1,8 @@
 # Wind Turbine Diagnostics using MongoDB Vector Search
+
 This demonstration showcases MongoDB's Vector Search capabilities for anomaly detection using sound input. We use a handheld fan as a proxy for a wind turbine, enabling real-time diagnostics of its condition—whether it's operating normally, stopped, or experiencing issues.
- 
-![Architecture](architecture1.png)
+
+![Architecture](utils/img/architecture1.png)
 
 ## Table of Contents
 
@@ -91,8 +92,6 @@ A default `.env` file has been created in the root directory of the project. To 
    MONGODB_URI="mongodb+srv://<your-atlas-connection-string>"
    ```
 
-
-
 ### Option 1: Run with Docker Compose
 
 1. Clone the repository and navigate to the project folder.
@@ -178,7 +177,7 @@ This step only needs to be done for the very first time that you’re connecting
 ## Atlas Charts
 
 1. In Atlas, go to Charts and click the down arrow next to "Add Dashboard", then click "Import Dashboard".
-2. Select the file `Sounds.charts` and click "Next".
+2. Select the file [Sounds.charts](utils/charts/Sounds.charts) and click "Next".
 3. Click on the pencil icon and ensure the database and collection match `audio` and `results`.
 4. Click "Save", and then "Save" again.
 5. Click the new dashboard "Sounds" to see analytics on the sounds that are being detected by the microphone.
