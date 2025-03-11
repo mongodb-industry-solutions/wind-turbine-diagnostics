@@ -107,12 +107,15 @@ export const stopRecording = () => {
 
 export const deletePreviousSamples = async (audioName) => {
   try {
-    const response = await fetch(
-      `/api/deletePreviousSamples?audioName=${audioName}`,
-      {
-        method: "DELETE",
-      }
-    );
+    const response = await fetch("/api/action/deleteMany", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        collection: "sounds",
+        filter: { audio: audioName },
+      }),
+    });
+
     if (!response.ok) {
       throw new Error("Failed to delete previous samples");
     }

@@ -1,18 +1,48 @@
-import clientPromise from "../lib/mongodb";
-import { useState } from "react";
-import SampleRecorder from "../components/SampleRecorder/SampleRecorder";
-import Stepper, { Step } from "@leafygreen-ui/stepper";
-import styles from "../styles/home.module.css";
-import AudioDevicePicker from "../components/AudioDevicePicker/AudioDevicePicker";
-import Button from "@leafygreen-ui/button";
-import DiagnosticsModule from "../components/DiagnosticsModule/DiagnosticsModule";
-import InfoWizard from "../components/InfoWizard/InfoWizard";
+"use client";
 
-export default function Home({ dictionary }) {
+import { useState, useEffect } from "react";
+import SampleRecorder from "@/components/SampleRecorder/SampleRecorder";
+import LeafyGreenProvider from "@leafygreen-ui/leafygreen-provider";
+import Stepper, { Step } from "@leafygreen-ui/stepper";
+import styles from "@/styles/home.module.css";
+import AudioDevicePicker from "@/components/AudioDevicePicker/AudioDevicePicker";
+import Button from "@leafygreen-ui/button";
+import DiagnosticsModule from "@/components/DiagnosticsModule/DiagnosticsModule";
+import InfoWizard from "@/components/InfoWizard/InfoWizard";
+
+function Page() {
+  const [dictionary, setDictionary] = useState([]);
   const [selectedDeviceId, setSelectedDeviceId] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [recording, setRecording] = useState(false);
   const [openHelpModal, setOpenHelpModal] = useState(false);
+
+  useEffect(() => {
+    async function fetchDictionary() {
+      try {
+        const response = await fetch("/api/action/find", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            collection: "dictionary",
+            filter: {},
+            sort: { rank: 1 },
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch dictionary");
+        }
+
+        const data = await response.json();
+        setDictionary(data);
+      } catch (error) {
+        console.error("Error fetching dictionary:", error);
+      }
+    }
+
+    fetchDictionary();
+  }, []);
 
   const resetTraining = () => {
     setCurrentIndex(0);
@@ -46,7 +76,7 @@ export default function Home({ dictionary }) {
                   "Press “Start Recording”, all samples will be recorded automatically one after another. Each sample takes around 1 second to be recorded.",
                   "If training has been done previously, you can skip the whole training by pressing “Skip Training”.",
                   "After completing training for all engine statuses, press “Start diagnosis”.",
-                  "If a new status is detected, a new gif will be displayed on the screen representing the new state and the state change will be added to the log list below."
+                  "If a new status is detected, a new gif will be displayed on the screen representing the new state and the state change will be added to the log list below.",
                 ],
               },
             ],
@@ -82,7 +112,6 @@ export default function Home({ dictionary }) {
         ]}
       />
 
-
       <AudioDevicePicker
         deviceId={selectedDeviceId}
         setDeviceId={setSelectedDeviceId}
@@ -97,7 +126,7 @@ export default function Home({ dictionary }) {
         Reset
       </Button>
 
-      {currentIndex < dictionary.length ? (
+      {dictionary.length === 0 || currentIndex < dictionary.length ? (
         <SampleRecorder
           dictionary={dictionary}
           selectedDeviceId={selectedDeviceId}
@@ -128,24 +157,10 @@ export default function Home({ dictionary }) {
   );
 }
 
-export async function getServerSideProps({ }) {
-  try {
-    const client = await clientPromise;
-    const db = client.db("audio");
-
-    const dictionary = await db
-      .collection("dictionary")
-      .find({})
-      .sort({ rank: 1 })
-      .toArray();
-
-    return {
-      props: { dictionary: JSON.parse(JSON.stringify(dictionary)) },
-    };
-  } catch (error) {
-    console.log(error);
-    return {
-      props: { dictionary: [] },
-    };
-  }
+export default function Home() {
+  return (
+    <LeafyGreenProvider>
+      <Page />
+    </LeafyGreenProvider>
+  );
 }
