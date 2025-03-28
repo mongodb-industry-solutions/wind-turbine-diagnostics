@@ -159,7 +159,7 @@ function Page() {
 
 export default function Home() {
   return (
-    <LeafyGreenProvider>
+    <LeafyGreenProvider darkMode={true}>
       <Page />
     </LeafyGreenProvider>
   );
