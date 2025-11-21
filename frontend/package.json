@@ -19,5 +19,8 @@
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
     "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "license-checker": "^25.0.1"
   }
 }
