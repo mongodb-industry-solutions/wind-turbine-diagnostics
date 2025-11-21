@@ -16,13 +16,12 @@ export const startRecording = (
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: { deviceId: selectedDeviceId },
       });
-      const env = process.env.NEXT_PUBLIC_ENV;
       let samplesSent = 0;
       stopRecorder = false;
 
       setRecording(true);
       while (samplesSent < numSamples && !stopRecorder) {
-        await recordSample(stream, audioName, env);
+        await recordSample(stream, audioName);
         samplesSent++;
       }
 
@@ -35,7 +34,7 @@ export const startRecording = (
   });
 };
 
-const recordSample = (stream, audioName, env) => {
+const recordSample = (stream, audioName) => {
   return new Promise(async (resolve, reject) => {
     const recorder = new MediaRecorder(stream);
     const timeslice = 1000; //Recording time per sample in ms
@@ -48,7 +47,7 @@ const recordSample = (stream, audioName, env) => {
     recorder.onstop = async () => {
       const completeBlob = new Blob(chunks, { type: "audio/webm" });
       try {
-        await sendAudioToBackend(completeBlob, audioName, env);
+        await sendAudioToBackend(completeBlob, audioName);
         resolve(); // Resolve the promise when sample is sent
       } catch (error) {
         console.error(error);
@@ -65,7 +64,7 @@ const recordSample = (stream, audioName, env) => {
   });
 };
 
-const sendAudioToBackend = async (audioBlob, audioName, env) => {
+const sendAudioToBackend = async (audioBlob, audioName) => {
   const formData = new FormData();
   formData.append("file", audioBlob, "recording.webm");
 

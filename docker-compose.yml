@@ -5,13 +5,14 @@ services:
       dockerfile: Dockerfile
       args:
         MONGODB_URI: ${MONGODB_URI} # Pass the MongoDB URI as a build argument
+        API_HOST: api # Pass API_HOST for local Docker Compose networking
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=production
       - MONGODB_URI=${MONGODB_URI}
     env_file:
-      - .env  # Use .env file in the root directory
+      - .env # Use .env file in the root directory
 
   api:
     build:
@@ -24,4 +25,4 @@ services:
     environment:
       - MONGODB_URI=${MONGODB_URI}
     env_file:
-      - .env  # Use .env file in the root directory
+      - .env # Use .env file in the root directory
