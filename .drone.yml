@@ -7,7 +7,6 @@ trigger:
   branch:
     - staging
 
-# replace connected-fleet-incident with your demo name for eg.: multi-agent-predictive-maintenance
 steps:
   # Step 1: Build and publish backend Docker image
   - name: publish-backend

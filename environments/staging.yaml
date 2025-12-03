@@ -5,7 +5,7 @@ env:
 
 # Secrets for frontend (if any needed)
 envSecrets:
-  MONGODB_URI: fleet-incident-secrets
+  MONGODB_URI: wind-turbine-diagnostics
 
 # Sidecar container configuration (frontend + backend in same pod)
 sidecarContainers:
@@ -18,7 +18,7 @@ sidecarContainers:
       - name: MONGODB_URI
         valueFrom:
           secretKeyRef:
-            name: fleet-incident-secrets
+            name: wind-turbine-diagnostics
             key: MONGODB_URI
       - name: APP_NAME
         value: "wind-turbine-diagnostics"
