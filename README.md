@@ -8,7 +8,7 @@ This demonstration showcases MongoDB's Vector Search capabilities for anomaly de
 
 1. Prerequisites
 2. Setup Options
-   - Unified `.env` File
+   - Configuration
    - Option 1: Run with Docker Compose
    - Option 2: Run Without Docker
 3. MongoDB Atlas Configuration
@@ -82,26 +82,29 @@ This demonstration showcases MongoDB's Vector Search capabilities for anomaly de
 
 Choose one of the following two ways to set up and run the demo.
 
-### Unified .env File
+### Configuration
 
-A default `.env` file has been created in the root directory of the project. To set it up:
+1. **Backend**: Create a `.env` file in the `api/` directory:
 
-1. Open the `.env` file located in the root directory.
-2. Edit the line for `MONGODB_URI` to include your MongoDB Atlas connection string:
    ```
    MONGODB_URI="mongodb+srv://<your-atlas-connection-string>"
    ```
 
+2. **Frontend**: Create a `.env.production` file in the `frontend/` directory (for Docker):
+   ```
+   MONGODB_URI="mongodb+srv://<your-atlas-connection-string>"
+   ```
+   > **Note**: For local development without Docker (`npm run dev`), also create a `.env` file in `frontend/` with the same content.
+
 ### Option 1: Run with Docker Compose
 
 1. Clone the repository and navigate to the project folder.
-2. Go to the `.env` file in the root directory and add your MongoDB Atlas connection string:
-   - Example: `MONGODB_URI=mongodb+srv://your-atlas-connection-string`
+2. Ensure you have created the configuration files as described above.
 3. Start Docker Compose by running:
    ```bash
    docker-compose up --build
    ```
-4. Access the frontend at `http://localhost:3000` in your browser.
+4. Access the frontend at `http://localhost:8080` in your browser.
 
 ### Option 2: Run Without Docker
 
@@ -130,7 +133,7 @@ A default `.env` file has been created in the root directory of the project. To 
    uvicorn main:app --reload --port 8000
    ```
 
-#### Frontend Setup (Port: 3000)
+#### Frontend Setup (Port: 8080)
 
 1. Navigate to the `frontend/` directory.
 2. Install dependencies:
@@ -141,7 +144,7 @@ A default `.env` file has been created in the root directory of the project. To 
    ```bash
    npm run dev
    ```
-4. Access the frontend at `http://localhost:3000`.
+4. Access the frontend at `http://localhost:8080`.
 
 ---
 
@@ -202,11 +205,11 @@ This step only needs to be done for the very first time that you’re connecting
     ```bash
     docker-compose down && docker-compose up --build
     ```
-  - Ensure your `.env` file is properly set up in the root directory.
+  - Ensure your `.env` files are properly set up in the `api/` and `frontend/` directories.
 
 - **Database Connection Errors**:
 
-  - Verify the `MONGODB_URI` in your `.env` file.
+  - Verify the `MONGODB_URI` in your `.env` files.
   - Ensure that your IP address is whitelisted in MongoDB Atlas.
   - Confirm that your MongoDB cluster is active and accessible.
 
