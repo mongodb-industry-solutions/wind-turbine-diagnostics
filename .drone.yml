@@ -1,0 +1,171 @@
+---
+kind: pipeline
+type: kubernetes
+name: staging-combined
+
+trigger:
+  branch:
+    - staging
+
+steps:
+  # Step 1: Build and publish backend Docker image
+  - name: publish-backend
+    image: plugins/kaniko-ecr
+    settings:
+      create_repository: true
+      registry: 795250896452.dkr.ecr.us-east-1.amazonaws.com
+      repo: industrysolutions/wind-turbine-diagnostics-backend
+      dockerfile: api/Dockerfile
+      context: api
+      tags:
+        - git-${DRONE_COMMIT_SHA:0:7}
+        - latest
+      access_key:
+        from_secret: ecr_access_key
+      secret_key:
+        from_secret: ecr_secret_key
+    when:
+      event:
+        - push
+
+  # Step 2: Build and publish frontend Docker image
+  - name: publish-frontend
+    image: plugins/kaniko-ecr
+    settings:
+      create_repository: true
+      registry: 795250896452.dkr.ecr.us-east-1.amazonaws.com
+      repo: industrysolutions/wind-turbine-diagnostics-frontend
+      dockerfile: frontend/Dockerfile
+      context: frontend
+      tags:
+        - git-${DRONE_COMMIT_SHA:0:7}
+        - latest
+      access_key:
+        from_secret: ecr_access_key
+      secret_key:
+        from_secret: ecr_secret_key
+    when:
+      event:
+        - push
+
+  # Step 3: Deploy combined pod (frontend + backend sidecar) to Kubernetes
+  - name: deploy-combined-staging
+    image: public.ecr.aws/kanopy/drone-helm:v3
+    settings:
+      chart: mongodb/web-app
+      chart_version: 4.25.0
+      add_repos: [mongodb=https://10gen.github.io/helm-charts]
+      namespace: industrysolutions
+      release: wind-turbine-diagnostics
+      values_files: ["environments/staging.yaml"]
+      values:
+        - "sidecarContainers[0].name=backend"
+        - "sidecarContainers[0].image=795250896452.dkr.ecr.us-east-1.amazonaws.com/industrysolutions/wind-turbine-diagnostics-backend:git-${DRONE_COMMIT_SHA:0:7}"
+        - "sidecarContainers[0].containerPort=8000"
+        - "image.tag=git-${DRONE_COMMIT_SHA:0:7}"
+        - "image.repository=795250896452.dkr.ecr.us-east-1.amazonaws.com/industrysolutions/wind-turbine-diagnostics-frontend"
+        - "ingress.enabled=true"
+        - "ingress.hosts[0]=wind-turbine-diagnostics.industrysolutions.staging.corp.mongodb.com"
+        - "mesh.enabled=true"
+        - "resources.limits.cpu=1000m"
+        - "resources.limits.memory=1536Mi"
+        - "resources.requests.cpu=500m"
+        - "resources.requests.memory=768Mi"
+        - "sidecarContainers[0].resources.limits.cpu=1000m"
+        - "sidecarContainers[0].resources.limits.memory=1536Mi"
+        - "sidecarContainers[0].resources.requests.cpu=500m"
+        - "sidecarContainers[0].resources.requests.memory=768Mi"
+      api_server: https://api.staging.corp.mongodb.com
+      kubernetes_token:
+        from_secret: staging_kubernetes_token
+    when:
+      branch:
+        - staging
+      event:
+        - push
+
+---
+kind: pipeline
+type: kubernetes
+name: production-combined
+
+trigger:
+  branch:
+    - main
+  event:
+    - push
+
+steps:
+  # Step 1: Build and publish backend Docker image
+  - name: publish-backend-prod
+    image: plugins/kaniko-ecr
+    settings:
+      create_repository: true
+      registry: 795250896452.dkr.ecr.us-east-1.amazonaws.com
+      repo: industrysolutions/wind-turbine-diagnostics-backend-prod
+      dockerfile: api/Dockerfile
+      context: api
+      tags:
+        - git-${DRONE_COMMIT_SHA:0:7}
+        - latest
+      access_key:
+        from_secret: ecr_access_key
+      secret_key:
+        from_secret: ecr_secret_key
+    when:
+      event:
+        - push
+
+  # Step 2: Build and publish frontend Docker image
+  - name: publish-frontend-prod
+    image: plugins/kaniko-ecr
+    settings:
+      create_repository: true
+      registry: 795250896452.dkr.ecr.us-east-1.amazonaws.com
+      repo: industrysolutions/wind-turbine-diagnostics-frontend-prod
+      dockerfile: frontend/Dockerfile
+      context: frontend
+      tags:
+        - git-${DRONE_COMMIT_SHA:0:7}
+        - latest
+      access_key:
+        from_secret: ecr_access_key
+      secret_key:
+        from_secret: ecr_secret_key
+    when:
+      event:
+        - push
+
+  # Step 3: Deploy combined pod to production
+  - name: deploy-combined-prod
+    image: public.ecr.aws/kanopy/drone-helm:v3
+    settings:
+      chart: mongodb/web-app
+      chart_version: 4.25.0
+      add_repos: [mongodb=https://10gen.github.io/helm-charts]
+      namespace: industrysolutions
+      release: wind-turbine-diagnostics-prod
+      values_files: ["environments/production.yaml"]
+      values:
+        - "sidecarContainers[0].image=795250896452.dkr.ecr.us-east-1.amazonaws.com/industrysolutions/wind-turbine-diagnostics-backend-prod:git-${DRONE_COMMIT_SHA:0:7}"
+        - "image.tag=git-${DRONE_COMMIT_SHA:0:7}"
+        - "image.repository=795250896452.dkr.ecr.us-east-1.amazonaws.com/industrysolutions/wind-turbine-diagnostics-frontend-prod"
+        - "ingress.enabled=true"
+        - "ingress.hosts[0]=wind-turbine-diagnostics.industrysolutions.prod.corp.mongodb.com"
+        - "mesh.enabled=true"
+        - "resources.limits.cpu=1000m"
+        - "resources.limits.memory=1536Mi"
+        - "resources.requests.cpu=500m"
+        - "resources.requests.memory=768Mi"
+        - "sidecarContainers[0].resources.limits.cpu=1000m"
+        - "sidecarContainers[0].resources.limits.memory=1536Mi"
+        - "sidecarContainers[0].resources.requests.cpu=500m"
+        - "sidecarContainers[0].resources.requests.memory=768Mi"
+      api_server: https://api.prod.corp.mongodb.com
+      kubernetes_token:
+        from_secret: prod_kubernetes_token
+    when:
+      branch:
+        - main
+      event:
+        - push
