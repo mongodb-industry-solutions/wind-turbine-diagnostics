@@ -1,0 +1,24 @@
+env:
+  NODE_ENV: staging
+  APP_NAME: wind-turbine-diagnostics
+  DATABASE_NAME: audio
+
+# Secrets for frontend (if any needed)
+envSecrets:
+  MONGODB_URI: fleet-incident-secrets
+
+# Sidecar container configuration (frontend + backend in same pod)
+sidecarContainers:
+  - name: backend
+    image: 795250896452.dkr.ecr.us-east-1.amazonaws.com/industrysolutions/wind-turbine-diagnostics-backend:latest
+    ports:
+      - containerPort: 8000
+        name: backend
+    env:
+      - name: MONGODB_URI
+        valueFrom:
+          secretKeyRef:
+            name: fleet-incident-secrets
+            key: MONGODB_URI
+      - name: APP_NAME
+        value: "wind-turbine-diagnostics"

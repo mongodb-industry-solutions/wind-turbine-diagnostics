@@ -10,7 +10,7 @@ if (!process.env.DATABASE_NAME) {
 
 const uri = process.env.MONGODB_URI;
 const dbName = process.env.DATABASE_NAME;
-const options = { appName: "wind-turbine-diagnostics" };
+const options = { appName: process.env.APP_NAME || "wind-turbine-diagnostics" };
 
 let client;
 let clientPromise;
