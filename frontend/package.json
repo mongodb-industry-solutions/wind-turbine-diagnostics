@@ -14,8 +14,8 @@
     "@leafygreen-ui/tabs": "^14.1.5",
     "dotenv": "^16.4.7",
     "mongodb": "^6.14.2",
-    "next": "^15.2.3",
-    "react": "^19.0.0",
+    "next": "^15.4.8",
+    "react": "^19.0.1",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
     "uuid": "^11.1.0"
