@@ -67,14 +67,14 @@ steps:
         - "ingress.enabled=true"
         - "ingress.hosts[0]=wind-turbine-diagnostics.industrysolutions.staging.corp.mongodb.com"
         - "mesh.enabled=true"
-        - "resources.limits.cpu=1000m"
-        - "resources.limits.memory=1536Mi"
-        - "resources.requests.cpu=500m"
-        - "resources.requests.memory=768Mi"
+        - "resources.limits.cpu=500m"
+        - "resources.limits.memory=512Mi"
+        - "resources.requests.cpu=100m"
+        - "resources.requests.memory=256Mi"
         - "sidecarContainers[0].resources.limits.cpu=1000m"
-        - "sidecarContainers[0].resources.limits.memory=1536Mi"
+        - "sidecarContainers[0].resources.limits.memory=2048Mi"
         - "sidecarContainers[0].resources.requests.cpu=500m"
-        - "sidecarContainers[0].resources.requests.memory=768Mi"
+        - "sidecarContainers[0].resources.requests.memory=1024Mi"
       api_server: https://api.staging.corp.mongodb.com
       kubernetes_token:
         from_secret: staging_kubernetes_token
@@ -153,14 +153,14 @@ steps:
         - "ingress.enabled=true"
         - "ingress.hosts[0]=wind-turbine-diagnostics.industrysolutions.prod.corp.mongodb.com"
         - "mesh.enabled=true"
-        - "resources.limits.cpu=1000m"
-        - "resources.limits.memory=1536Mi"
-        - "resources.requests.cpu=500m"
-        - "resources.requests.memory=768Mi"
+        - "resources.limits.cpu=500m"
+        - "resources.limits.memory=512Mi"
+        - "resources.requests.cpu=100m"
+        - "resources.requests.memory=256Mi"
         - "sidecarContainers[0].resources.limits.cpu=1000m"
-        - "sidecarContainers[0].resources.limits.memory=1536Mi"
+        - "sidecarContainers[0].resources.limits.memory=2048Mi"
         - "sidecarContainers[0].resources.requests.cpu=500m"
-        - "sidecarContainers[0].resources.requests.memory=768Mi"
+        - "sidecarContainers[0].resources.requests.memory=1024Mi"
       api_server: https://api.prod.corp.mongodb.com
       kubernetes_token:
         from_secret: prod_kubernetes_token
