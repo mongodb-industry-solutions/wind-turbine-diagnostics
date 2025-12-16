@@ -73,8 +73,8 @@ steps:
         - "resources.requests.memory=256Mi"
         - "sidecarContainers[0].resources.limits.cpu=1000m"
         - "sidecarContainers[0].resources.limits.memory=2048Mi"
-        - "sidecarContainers[0].resources.requests.cpu=500m"
-        - "sidecarContainers[0].resources.requests.memory=1024Mi"
+        - "sidecarContainers[0].resources.requests.cpu=250m"
+        - "sidecarContainers[0].resources.requests.memory=768Mi"
       api_server: https://api.staging.corp.mongodb.com
       kubernetes_token:
         from_secret: staging_kubernetes_token
@@ -159,8 +159,8 @@ steps:
         - "resources.requests.memory=256Mi"
         - "sidecarContainers[0].resources.limits.cpu=1000m"
         - "sidecarContainers[0].resources.limits.memory=2048Mi"
-        - "sidecarContainers[0].resources.requests.cpu=500m"
-        - "sidecarContainers[0].resources.requests.memory=1024Mi"
+        - "sidecarContainers[0].resources.requests.cpu=250m"
+        - "sidecarContainers[0].resources.requests.memory=768Mi"
       api_server: https://api.prod.corp.mongodb.com
       kubernetes_token:
         from_secret: prod_kubernetes_token
