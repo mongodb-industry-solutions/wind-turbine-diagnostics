@@ -39,11 +39,11 @@ This demonstration showcases MongoDB's Vector Search capabilities for anomaly de
          brew install python
          ```
 
-3. [A MongoDB Atlas Account](https://www.mongodb.com/cloud/atlas/register)
+3. [A MongoDB Atlas Account](https://www.mongodb.com/cloud/atlas/register?utm_campaign=devrel&utm_source=github&utm_medium=referral&utm_content=wind_turbine_diagnostics&utm_term=learning.fuel)
 
    - **Usage**: We are using MongoDB Atlas to store sound embeddings and other data, and to facilitate search capabilities via vector similarity.
    - **Setup**:
-     - Create an account at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register).
+     - Create an account at [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register?utm_campaign=devrel&utm_source=github&utm_medium=referral&utm_content=wind_turbine_diagnostics&utm_term=learning.fuel).
      - Once created, set up a cluster, and obtain the connection string which will be used in the `.env` file.
 
 4. [FFmpeg](https://ffmpeg.org/download.html)
