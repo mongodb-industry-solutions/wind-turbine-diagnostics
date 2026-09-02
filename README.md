@@ -154,19 +154,27 @@ First time accessing the project:
 
 1. Choose your number of training samples and hit "Start Recording" on the frontend.
 
-2. Once recording for all stages is complete, go to your MongoDB Atlas dashboard and create a search index in the `audio` database and `sounds` collection using the following content:
+2. Once recording for all stages is complete, create an Atlas Vector Search index on the `audio` database's `sounds` collection. Run the provided script from `api/`:
+
+   ```bash
+   python3 utils/indexes/create_vector_index.py
+   ```
+
+   Or create it manually in the Atlas dashboard using the content of [`utils/indexes/search_index.json`](utils/indexes/search_index.json):
 
    ```json
    {
-     "mappings": {
-       "dynamic": true,
-       "fields": {
-         "emb": {
-           "dimensions": 2048,
-           "similarity": "cosine",
-           "type": "knnVector"
+     "name": "vector_index",
+     "type": "vectorSearch",
+     "definition": {
+       "fields": [
+         {
+           "path": "emb",
+           "type": "vector",
+           "numDimensions": 2048,
+           "similarity": "cosine"
          }
-       }
+       ]
      }
    }
    ```

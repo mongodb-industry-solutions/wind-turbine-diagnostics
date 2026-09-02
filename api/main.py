@@ -69,6 +69,8 @@ def insert_mongo_results(results, mongodb_results_collection):
         return False
     return True
 
+VECTOR_INDEX_NAME = os.getenv('VECTOR_INDEX_NAME', 'vector_index')
+
 def knnbeta_search(embedding, mongodb_sounds_collection):
     # Create the query vector
     query_vector = embedding.tolist()
@@ -76,12 +78,12 @@ def knnbeta_search(embedding, mongodb_sounds_collection):
     # Create the search query
     search_query = [
         {
-            "$search": {
-                "knnBeta": {
-                    "vector": query_vector,
-                    "path": "emb",
-                    "k": 3
-                }
+            "$vectorSearch": {
+                "index": VECTOR_INDEX_NAME,
+                "path": "emb",
+                "queryVector": query_vector,
+                "numCandidates": 30,
+                "limit": 3
             }
         },
         {
@@ -90,7 +92,7 @@ def knnbeta_search(embedding, mongodb_sounds_collection):
             "audio": 1,
             #"image": 1,
             "audio_file": 1,
-            "score": { "$meta": "searchScore" }
+            "score": { "$meta": "vectorSearchScore" }
             }
         }
     ]
