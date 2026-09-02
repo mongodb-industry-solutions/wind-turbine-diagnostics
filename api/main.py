@@ -19,7 +19,10 @@ app = FastAPI()
 connection_string = os.getenv('MONGODB_URI')
 
 # Initialize the AudioTagging model
-model = AudioTagging(checkpoint_path=None, device='cuda')
+# Defaults to 'cpu' to match the CPU-only torch install in api/Dockerfile;
+# override with TORCH_DEVICE=cuda on a GPU-equipped host.
+torch_device = os.getenv('TORCH_DEVICE', 'cpu')
+model = AudioTagging(checkpoint_path=None, device=torch_device)
 
 # Deine MongoDB client
 client = MongoClient(connection_string, tlsCAFile=certifi.where())
