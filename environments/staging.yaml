@@ -1,6 +1,6 @@
 env:
   NODE_ENV: staging
-  APP_NAME: wind-turbine-diagnostics
+  APP_NAME: devrel-demo-vectorsearch-audio-turbine-staging
   DATABASE_NAME: audio
 
 # Secrets for frontend (if any needed)
@@ -21,7 +21,7 @@ sidecarContainers:
             name: wind-turbine-diagnostics
             key: MONGODB_URI
       - name: APP_NAME
-        value: "wind-turbine-diagnostics"
+        value: "devrel-demo-vectorsearch-audio-turbine-staging"
 
 # Kanopy security and ownership (requires web-app chart v4.30.0+)
 security:

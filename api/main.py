@@ -25,7 +25,7 @@ torch_device = os.getenv('TORCH_DEVICE', 'cpu')
 model = AudioTagging(checkpoint_path=None, device=torch_device)
 
 # Deine MongoDB client
-app_name = os.getenv('APP_NAME', 'wind-turbine-diagnostics')
+app_name = os.getenv('APP_NAME', 'devrel-demo-vectorsearch-audio-turbine')
 client = MongoClient(connection_string, tlsCAFile=certifi.where(), appname=app_name)
 db = client['audio']
 mongodb_sounds_collection = db['sounds']

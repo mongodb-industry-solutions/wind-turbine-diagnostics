@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 MONGODB_URI = os.getenv("MONGODB_URI")
-APP_NAME = os.getenv("APP_NAME", "wind-turbine-diagnostics")
+APP_NAME = os.getenv("APP_NAME", "devrel-demo-vectorsearch-audio-turbine")
 VECTOR_INDEX_NAME = os.getenv("VECTOR_INDEX_NAME", "vector_index")
 
 
