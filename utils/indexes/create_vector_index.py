@@ -23,7 +23,7 @@ def create_vector_index(
     dimensions: int = 2048,
     similarity_metric: str = "cosine",
 ) -> dict:
-    """ Creates an Atlas Vector Search index on the given collection, matching
+    """ Creates an MongoDB Vector Search index on the given collection, matching
     utils/indexes/search_index.json. """
     index_config = {
         "name": index_name,

@@ -3,7 +3,7 @@
 Guidance for AI coding agents working in this repository.
 
 Wind Turbine Diagnostics is a two-service demo: a FastAPI backend (`api/`) that runs a
-PANNs audio-tagging model and MongoDB Atlas Vector Search over stored embeddings, and a
+PANNs audio-tagging model and MongoDB Vector Search over stored embeddings, and a
 Next.js frontend (`frontend/`) that records audio in the browser, drives the backend,
 and reads/writes MongoDB directly through its own API routes. All persistent state lives
 in the `audio` database on the Atlas cluster referenced by `MONGODB_URI` — see
@@ -112,7 +112,7 @@ From `.env.example` (shared by `api/` and `frontend/`) and env reads in `api/mai
 | `DATABASE_NAME` | Yes (frontend) | `audio` | Database name used by the frontend's generic Mongo proxy route and its change-stream helper; defaults to `audio` if unset in code paths that fall back, but `.env.example` sets it explicitly |
 | `APP_NAME` | No | `devrel-demo-vectorsearch-audio-turbine` | MongoDB driver `appName`, set in both `api/main.py`'s `MongoClient(...)` and `frontend/src/lib/mongodb.js`'s `getClientPromise()`; defaults to `devrel-demo-vectorsearch-audio-turbine` in code |
 | `TORCH_DEVICE` | No | `cpu` | Device passed to `panns_inference.AudioTagging`. Defaults to `cpu` to match the CPU-only torch install in `api/Dockerfile`; set to `cuda` only on a GPU host running its own torch+CUDA install |
-| `VECTOR_INDEX_NAME` | No | `vector_index` | Name of the Atlas Vector Search index, read by both `api/main.py` (`knnbeta_search()`) and `utils/indexes/create_vector_index.py`; must match the `name` field in `utils/indexes/search_index.json` |
+| `VECTOR_INDEX_NAME` | No | `vector_index` | Name of the MongoDB Vector Search index, read by both `api/main.py` (`knnbeta_search()`) and `utils/indexes/create_vector_index.py`; must match the `name` field in `utils/indexes/search_index.json` |
 | `API_HOST` | No | `localhost` | Frontend-only; used to reach the backend (also passed as a Docker build arg in `docker-compose.yml`) |
 
 Constraints worth knowing before you debug a failure:
