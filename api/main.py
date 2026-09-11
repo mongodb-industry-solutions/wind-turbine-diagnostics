@@ -19,10 +19,14 @@ app = FastAPI()
 connection_string = os.getenv('MONGODB_URI')
 
 # Initialize the AudioTagging model
-model = AudioTagging(checkpoint_path=None, device='cuda')
+# Defaults to 'cpu' to match the CPU-only torch install in api/Dockerfile;
+# override with TORCH_DEVICE=cuda on a GPU-equipped host.
+torch_device = os.getenv('TORCH_DEVICE', 'cpu')
+model = AudioTagging(checkpoint_path=None, device=torch_device)
 
 # Deine MongoDB client
-client = MongoClient(connection_string, tlsCAFile=certifi.where())
+app_name = os.getenv('APP_NAME', 'devrel-demo-vectorsearch-audio-turbine')
+client = MongoClient(connection_string, tlsCAFile=certifi.where(), appname=app_name)
 db = client['audio']
 mongodb_sounds_collection = db['sounds']
 mongodb_results_collection = db['results']
@@ -65,6 +69,8 @@ def insert_mongo_results(results, mongodb_results_collection):
         return False
     return True
 
+VECTOR_INDEX_NAME = os.getenv('VECTOR_INDEX_NAME', 'vector_index')
+
 def knnbeta_search(embedding, mongodb_sounds_collection):
     # Create the query vector
     query_vector = embedding.tolist()
@@ -72,12 +78,12 @@ def knnbeta_search(embedding, mongodb_sounds_collection):
     # Create the search query
     search_query = [
         {
-            "$search": {
-                "knnBeta": {
-                    "vector": query_vector,
-                    "path": "emb",
-                    "k": 3
-                }
+            "$vectorSearch": {
+                "index": VECTOR_INDEX_NAME,
+                "path": "emb",
+                "queryVector": query_vector,
+                "numCandidates": 30,
+                "limit": 3
             }
         },
         {
@@ -86,7 +92,7 @@ def knnbeta_search(embedding, mongodb_sounds_collection):
             "audio": 1,
             #"image": 1,
             "audio_file": 1,
-            "score": { "$meta": "searchScore" }
+            "score": { "$meta": "vectorSearchScore" }
             }
         }
     ]

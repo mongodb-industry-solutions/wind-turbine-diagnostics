@@ -64,7 +64,7 @@ function Page() {
             content: [
               {
                 heading: "Solution Overview",
-                body: "The renewable energy sector is rapidly evolving with advancements in AI and machine learning, offering significant potential for efficiency gains and cost reductions, yet much innovation remains untapped. By integrating AI into renewable energy systems, new opportunities for efficiency gains and cost reductions emerge. Our solution explores the application of AI in real-time anomaly detection using sound input, highlighting the impact of MongoDB Atlas Vector Search.",
+                body: "The renewable energy sector is rapidly evolving with advancements in AI and machine learning, offering significant potential for efficiency gains and cost reductions, yet much innovation remains untapped. By integrating AI into renewable energy systems, new opportunities for efficiency gains and cost reductions emerge. Our solution explores the application of AI in real-time anomaly detection using sound input, highlighting the impact of MongoDB Vector Search.",
               },
               {
                 heading: "How to Demo",
@@ -104,8 +104,8 @@ function Page() {
                 body: "MongoDB’s flexible document model allows storing AI-generated vector embeddings from audio recordings, alongside metadata, transcriptions etc. all in a single document.",
               },
               {
-                heading: "Atlas Vector Search",
-                body: "With MongoDB Atlas Vector Search, the system can efficiently search and compare vector embeddings to find similar audio patterns.",
+                heading: "MongoDB Vector Search",
+                body: "With MongoDB Vector Search, the system can efficiently search and compare vector embeddings to find similar audio patterns.",
               },
             ],
           },

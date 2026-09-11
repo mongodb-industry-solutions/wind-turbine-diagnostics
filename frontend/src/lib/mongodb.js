@@ -10,7 +10,7 @@ function getClientPromise() {
 
   if (!_clientPromise) {
     const uri = process.env.MONGODB_URI;
-    const options = { appName: process.env.APP_NAME || "wind-turbine-diagnostics" };
+    const options = { appName: process.env.APP_NAME || "devrel-demo-vectorsearch-audio-turbine" };
 
     if (!global._mongoClientPromise) {
       const client = new MongoClient(uri, options);
