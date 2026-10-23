@@ -1,12 +1,14 @@
 {
-    "mappings": {
-      "dynamic": true,
-      "fields": {
-        "emb": {
-          "dimensions": 2048,
-          "similarity": "cosine",
-          "type": "knnVector"
-        }
+  "name": "vector_index",
+  "type": "vectorSearch",
+  "definition": {
+    "fields": [
+      {
+        "path": "emb",
+        "type": "vector",
+        "numDimensions": 2048,
+        "similarity": "cosine"
       }
-    }
+    ]
   }
+}

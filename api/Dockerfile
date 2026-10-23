@@ -1,7 +1,7 @@
 # ==========================================
 # STAGE 1: Builder (Compile and Download)
 # ==========================================
-FROM python:3.9-slim AS builder
+FROM python:3.11-slim AS builder
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -34,7 +34,7 @@ RUN python -c "from panns_inference import AudioTagging; model = AudioTagging(ch
 # ==========================================
 # STAGE 2: Final Runtime Image
 # ==========================================
-FROM python:3.9-slim AS final
+FROM python:3.11-slim AS final
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
